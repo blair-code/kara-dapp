@@ -7,6 +7,11 @@ let state = {
     balance: null,
     error: null
   },
+  data: {
+    image: null,
+    description: null,
+    price: null
+  },
   contractInstance: null
 }
 export default state

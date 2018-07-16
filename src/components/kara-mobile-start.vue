@@ -13,7 +13,10 @@
     </div>
     <div class="col-md-4 col-md-offset-4">
         <p class="text-center">
-        <label for="file"> <router-link to="upload" class="btn btn-primary btn-lg btn-block" role="button">Submit Medical Data</router-link> </label>
+        <!-- <label for="file-upload">  -->
+        <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Submit Medical Data</a></router-link>
+        <!-- </label> -->
+        <!-- <input style="display:None" id="file-upload" type="file" accept="image/*" @change="processFile( $event )"/> -->
         </p>
     </div>
     </div>
@@ -24,7 +27,13 @@
 
 <script>
 export default {
-  name: 'kara-mobile-start'
+  name: 'kara-mobile-start',
+  methods: {
+    processFile (event) {
+      // this.$store.data.image = event.target.files[0]
+      this.$router.push('/upload') // change to upload screen
+    }
+  }
 }
 </script>
 <style scoped>
