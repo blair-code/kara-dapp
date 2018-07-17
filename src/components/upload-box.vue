@@ -22,7 +22,13 @@
       </p>
       <ul class="list-unstyled">
         <li v-for="item in uploadedFiles" :key="item.id">
-          <img :src="item.url" class="img-responsive img-thumbnail" :alt="item.originalName">
+          <img :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName">
+        </li>
+      </ul>
+      <h2>Extracted tables</h2>
+      <ul class="list-unstyled">
+        <li v-for="item in extractedInfos" :key="item.id">
+          <img :src="item.url" class="img-responsive img-thumbnail with-margin preview">
         </li>
       </ul>
     </div>
@@ -39,7 +45,8 @@
 
 <!-- Javascript -->
 <script>
-import { upload } from '../util/file-upload.service'
+import { upload, extractInfos } from '../util/file-upload.service'
+import { OCT } from '../util/constants/crops'
 
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -53,7 +60,8 @@ export default {
       uploadedFiles: [],
       uploadError: null,
       currentStatus: null,
-      uploadFieldName: 'photos'
+      uploadFieldName: 'photos',
+      extractedInfos: []
     }
   },
   computed: {
@@ -76,6 +84,7 @@ export default {
       this.currentStatus = STATUS_INITIAL
       this.uploadedFiles = []
       this.uploadError = null
+      this.extractedInfos = []
     },
     save (formData) {
       // upload data to the server
@@ -85,6 +94,9 @@ export default {
         .then(x => {
           this.uploadedFiles = [].concat(x)
           this.currentStatus = STATUS_SUCCESS
+          // coord for important data parts to extract
+          var coords = [OCT['zeiss_zoom']['table']]
+          this.extractCoords(this.uploadedFiles[0], coords)
         })
         .catch(err => {
           this.uploadError = err.response
@@ -106,6 +118,17 @@ export default {
 
       // save it
       this.save(formData)
+    },
+    extractCoords (file, coords) {
+      // crop first image and preview it
+      extractInfos(this.uploadedFiles[0].url, coords)
+        .then(dataURL => {
+          this.extractedInfos = [].concat(dataURL)
+        })
+        .catch(err => {
+          this.uploadError = err.response
+          this.currentStatus = STATUS_FAILED
+        })
     }
   },
   mounted () {
@@ -147,5 +170,10 @@ export default {
 
   .upload-again {
     color: white;
+  }
+
+  .with-margin {
+    margin-top: 1%;
+    margin-bottom: 1%;
   }
 </style>
