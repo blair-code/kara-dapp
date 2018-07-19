@@ -3,9 +3,7 @@
     <hello-metamask/>
     <section class="probootstrap-intro">
       <upload-box/>
-      <div class="col col-3">
-        <div class="preview"></div>
-      </div>
+      <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Submit To Oasis</a></router-link>
     </section>
   </div>
 </template>

@@ -18,17 +18,23 @@
     <div v-if="isSuccess">
       <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
       <p>
-        <a class="upload-again" href="javascript:void(0)" @click="reset()">Upload again</a>
+        <a class="white" href="javascript:void(0)" @click="reset()">Upload again</a>
       </p>
       <ul class="list-unstyled">
         <li v-for="item in uploadedFiles" :key="item.id">
           <img :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName">
+          <a class="white">{{ item.originalName }}</a>
         </li>
       </ul>
       <h2>Extracted tables</h2>
       <ul class="list-unstyled">
         <li v-for="item in extractedInfos" :key="item.id">
-          <img :src="item.url" class="img-responsive img-thumbnail with-margin preview">
+          <div class="img-responsive img-thumbnail with-margin">
+            <img :src="item.url" class="with-margin preview">
+            <!-- Button temporary to limit calls to google's OCR engine, we'll replace it with our own OCR soon -->
+            <a class="btn btn-info btn-block" role="button">Run OCR</a>
+            <upload-form/>
+          </div>
         </li>
       </ul>
     </div>
@@ -47,6 +53,8 @@
 <script>
 import { upload, extractInfos } from '../util/file-upload.service'
 import { OCT } from '../util/constants/crops'
+import UploadForm from '@/components/upload-form'
+
 
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -55,6 +63,9 @@ const STATUS_FAILED = 3
 
 export default {
   name: 'upload-box',
+  components: {
+    'upload-form': UploadForm
+  },
   data () {
     return {
       uploadedFiles: [],
@@ -96,7 +107,7 @@ export default {
           this.currentStatus = STATUS_SUCCESS
           // coord for important data parts to extract
           var coords = [OCT['zeiss_zoom']['table']]
-          this.extractCoords(this.uploadedFiles[0], coords)
+          this.extractCoords(this.uploadedFiles[0].url, coords)
         })
         .catch(err => {
           this.uploadError = err.response
@@ -121,7 +132,7 @@ export default {
     },
     extractCoords (file, coords) {
       // crop first image and preview it
-      extractInfos(this.uploadedFiles[0].url, coords)
+      extractInfos(file, coords)
         .then(dataURL => {
           this.extractedInfos = [].concat(dataURL)
         })
@@ -168,12 +179,19 @@ export default {
     padding: 50px 0;
   }
 
-  .upload-again {
+  .white {
     color: white;
   }
 
   .with-margin {
+    margin-top: 3%;
+    margin-bottom: 0.5%;
+  }
+
+  .form {
+    width: 47%;
     margin-top: 1%;
-    margin-bottom: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
   }
 </style>
