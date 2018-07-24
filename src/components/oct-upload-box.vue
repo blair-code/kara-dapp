@@ -32,8 +32,8 @@
           <div class="img-responsive img-thumbnail with-margin">
             <img :src="item.url" class="with-margin preview">
             <!-- Button temporary to limit calls to google's OCR engine, we'll replace it with our own OCR soon -->
-            <a class="btn btn-info btn-block" role="button">Run OCR</a>
-            <upload-form/>
+            <oct-upload-form ref="form"/>
+            <a class="btn btn-info btn-block" role="button" @click="runOCR()">Run OCR</a>
           </div>
         </li>
       </ul>
@@ -42,7 +42,7 @@
     <div v-if="isFailed">
       <h2>Uploaded failed.</h2>
       <p>
-        <a class="upload-again" href="javascript:void(0)" @click="reset()">Try again</a>
+        <a class="white" href="javascript:void(0)" @click="reset()">Try again</a>
       </p>
       <pre>{{ uploadError }}</pre>
     </div>
@@ -53,7 +53,7 @@
 <script>
 import { upload, extractInfos } from '../util/file-upload.service'
 import { OCT } from '../util/constants/crops'
-import UploadForm from '@/components/upload-form'
+import OCTUploadForm from '@/components/oct-upload-form'
 
 
 const STATUS_INITIAL = 0
@@ -62,9 +62,9 @@ const STATUS_SUCCESS = 2
 const STATUS_FAILED = 3
 
 export default {
-  name: 'upload-box',
+  name: 'oct-upload-box',
   components: {
-    'upload-form': UploadForm
+    'oct-upload-form': OCTUploadForm
   },
   data () {
     return {
@@ -140,6 +140,32 @@ export default {
           this.uploadError = err.response
           this.currentStatus = STATUS_FAILED
         })
+    },
+    runOCR () {
+      const postBody = {
+        'requests': [
+          {
+            'features': [
+              {
+                'type': 'TEXT_DETECTION'
+              }
+            ],
+            'image': {
+              'content': this.extractedInfos[0].url.split(',')[1] 
+            }
+          }
+        ]
+      }
+      console.log(this.extractedInfos[0].url.split(',')[1])
+      var api_key = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ'
+      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + api_key, postBody)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(err => {
+          console.log('OCR failed')
+        })
+      // this.$refs.form[0].model.avg_rnfl = 10
     }
   },
   mounted () {

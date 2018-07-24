@@ -1,6 +1,6 @@
 <template>
 <div>
-    <section class="probootstrap-intro" style="background-image: url(img/hero_bg_2.jpg);" data-stellar-background-ratio="0.5">
+    <section id="intro" class="probootstrap-intro" data-stellar-background-ratio="0.5">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 probootstrap-intro-text">
@@ -37,4 +37,10 @@ export default {
 }
 </script>
 <style scoped>
+canvas {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
 </style>

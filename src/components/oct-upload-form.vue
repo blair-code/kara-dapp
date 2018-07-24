@@ -13,7 +13,7 @@ import { validators } from 'vue-form-generator'
 import 'vue-form-generator/dist/vfg-core.css'
 
 export default {
-  name: 'upload-form',
+  name: 'oct-upload-form',
   components: {
     'vue-form-generator': VueFormGenerator.component
   },
@@ -22,6 +22,7 @@ export default {
 
       model: {
         avg_rnfl: null,
+        rnfl_symmetry: null,
         rim_area: null,
         disc_area: null,
         avg_cd_ratio: null,
@@ -40,6 +41,14 @@ export default {
                 label: 'Average RNFL Thickness (in μm)',
                 model: 'avg_rnfl',
                 placeholder: ''              
+              },
+              {
+                type: 'input',
+                inputType: 'number',
+                label: 'RNFL Symmetry (in %)',
+                model: 'rnfl_symmetry',
+                placeholder: '',
+                validator: validators.number              
               },
               {
                 type: 'input',
@@ -77,13 +86,13 @@ export default {
                 placeholder: ''
               }
             ]
-          }],
+          }]
+        },
 
-          formOptions: {
-            validateAfterLoad: true,
-            validateAfterChanged: true,
-            fieldIdPrefix: 'user-'
-          }
+        formOptions: {
+          validateAfterLoad: true,
+          validateAfterChanged: true,
+          fieldIdPrefix: 'user-'
         }
       }
     }

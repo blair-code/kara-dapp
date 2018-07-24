@@ -3,15 +3,13 @@
     <hello-metamask/>
     <section class="probootstrap-intro">
       <!-- In the future, we can change into different upload boxes -->
-      <oct-upload-box/>
-      <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Submit To Oasis</a></router-link>
+      <market/>
     </section>
   </div>
 </template>
 <script>
 import HelloMetamask from '@/components/hello-metamask'
-import KaraMobileStart from '@/components/kara-mobile-start'
-import OCTUploadBox from '@/components/oct-upload-box'
+import Market from '@/components/market'
 export default {
   name: 'mobile-dapp',
   beforeCreate () {
@@ -20,8 +18,7 @@ export default {
   },
   components: {
     'hello-metamask': HelloMetamask,
-    'kara-mobile-start': KaraMobileStart,
-    'oct-upload-box': OCTUploadBox
+    'market': Market
   }
 }
 </script>

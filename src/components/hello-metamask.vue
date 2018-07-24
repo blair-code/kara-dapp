@@ -1,7 +1,7 @@
 <template>
   <div class='metamask-info'>
     <span v-if="isInjected" id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> Connected to </span>
-    <span v-else id="no-metamask"><i aria-hidden="true" class="fa fa-times"></i> No wallet found</span>
+    <span v-else id="no-metamask"><i aria-hidden="true" class="fa fa-times"></i> Not connected to wallet</span>
     <span>{{ network }} ⛓</span>
     <!-- <span> ⛓ {{ network }}, 💻 {{ coinbase }}, 💲{{ ethBalance }} ETH</span> -->
   </div>
