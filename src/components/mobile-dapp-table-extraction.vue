@@ -3,16 +3,16 @@
     <hello-metamask/>
     <section class="probootstrap-intro">
       <!-- In the future, we can change into different upload boxes -->
-      <oct-upload-box/>
+      <oct-table-extraction/>
     </section>
   </div>
 </template>
 <script>
 import HelloMetamask from '@/components/hello-metamask'
 import KaraMobileStart from '@/components/kara-mobile-start'
-import OCTUploadBox from '@/components/oct-upload-box'
+import OCTTableExtraction from '@/components/oct-table-extraction'
 export default {
-  name: 'mobile-dapp-upload',
+  name: 'mobile-dapp-table-extraction',
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from mobile-dapp.vue')
     this.$store.dispatch('registerWeb3')
@@ -20,7 +20,7 @@ export default {
   components: {
     'hello-metamask': HelloMetamask,
     'kara-mobile-start': KaraMobileStart,
-    'oct-upload-box': OCTUploadBox
+    'oct-table-extraction': OCTTableExtraction
   }
 }
 </script>

@@ -8,7 +8,7 @@
                 <div class="probootstrap-subtitle text-center">
                     <h2>Privacy-Preserving Tokenized Data Market for Medical Data</h2>
                 </div>
-                <p class="text-center watch-intro"><a href="" class="popup-vimeo">Watch the video <i class="icon-play2"></i></a></p>
+                <p class="text-center watch-intro"><a href="" class="popup-vimeo">Watch the tutorial <i class="icon-play2"></i></a></p>
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-4">
@@ -20,7 +20,7 @@
                 </p>
             </div>
         </div>
-        <router-link class="probootstrap-scroll-down js-next" to="/market">Browse Data Market<i class="icon-chevron-right"></i></router-link>
+        <a class="probootstrap-scroll-down js-next" href="https://blair-code.github.io/kara-market">Browse Data Market<i class="icon-chevron-right"></i></a>
     </section>
 </div>
 </template>
@@ -28,12 +28,12 @@
 <script>
 export default {
   name: 'kara-mobile-start',
-  methods: {
-    processFile (event) {
-      // this.$store.data.image = event.target.files[0]
-      this.$router.push('/upload') // change to upload screen
-    }
-  }
+//   methods: {
+//     processFile (event) {
+//       // this.$store.data.image = event.target.files[0]
+//       this.$router.push('/upload') // change to upload screen
+//     }
+//   }
 }
 </script>
 <style scoped>

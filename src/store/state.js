@@ -8,9 +8,7 @@ let state = {
     error: null
   },
   data: {
-    image: null,
-    description: null,
-    price: null
+    uploadedFiles: []
   },
   contractInstance: null
 }

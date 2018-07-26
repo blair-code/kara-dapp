@@ -30,6 +30,13 @@ export const store = new Vuex.Store({
     registerContractInstance (state, payload) {
       // console.log('Casino contract instance: ', payload)
       state.contractInstance = () => payload
+    },
+    uploadFilesInstance (state, payload) {
+      console.log('uploadFiles Mutation being executed', payload)
+      state.data.uploadedFiles = payload
+    },
+    reset (state, payload) {
+      state.data.uploadedFiles = []
     }
   },
   actions: {
@@ -50,6 +57,12 @@ export const store = new Vuex.Store({
       getContract.then(result => {
         commit('registerContractInstance', result)
       }).catch(e => console.log(e))
+    },
+    uploadFiles ({commit}, payload) {
+      commit('uploadFilesInstance', payload)
+    },
+    resetFiles ({commit}) {
+      commit('reset')
     }
   }
 })

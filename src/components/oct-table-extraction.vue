@@ -1,54 +1,21 @@
 <!-- HTML Template -->
 <template>
   <div class="container">
-    <!--UPLOAD-->
-    <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-      <h1>Upload images</h1>
-      <div class="dropbox">
-        <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
-          <p v-if="isInitial">
-            Drag your file(s) here to begin<br> or click to browse
-          </p>
-          <p v-if="isSaving">
-            Uploading {{ fileCount }} files...
-          </p>
-      </div>
-    </form>
-    <!--SUCCESS-->
-    <div v-if="isSuccess">
-      <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
-      <p>
-        <a class="white" href="javascript:void(0)" @click="reset()">Upload again</a>
-      </p>
-      <ul class="list-unstyled">
-        <li v-for="item in uploadedFiles" :key="item.id">
-          <img :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName">
-          <a class="white">{{ item.originalName }}</a>
-        </li>
-      </ul>
+    <h1>Extracted tables</h1>
+    <p>
+      <router-link to="upload"><a class="white" href="javascript:void(0)">Back to Uploads</a></router-link>
+    </p>
+    <ul class="list-unstyled">
+      <li v-for="item in extractedInfos" :key="item.id">
+        <div class="img-responsive img-thumbnail with-margin">
+          <img :src="item.url" class="with-margin preview">
+          <oct-upload-form ref="form"/>
+          <a class="btn btn-info btn-block" role="button" @click="runOCR()">Run OCR</a>
+        </div>
+      </li>
+    </ul>
 
-      <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link>
-
-      <!-- <h2>Extracted tables</h2>
-      <ul class="list-unstyled">
-        <li v-for="item in extractedInfos" :key="item.id">
-          <div class="img-responsive img-thumbnail with-margin">
-            <img :src="item.url" class="with-margin preview">
-            <oct-upload-form ref="form"/>
-            <a class="btn btn-info btn-block" role="button" @click="runOCR()">Run OCR</a>
-          </div>
-        </li>
-      </ul> -->
-      
-    </div>
-    <!--FAILED-->
-    <div v-if="isFailed">
-      <h2>Uploaded failed.</h2>
-      <p>
-        <a class="white" href="javascript:void(0)" @click="reset()">Try again</a>
-      </p>
-      <pre>{{ uploadError }}</pre>
-    </div>
+    <router-link to="submit-oasis"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Submit to Oasis</a></router-link>
   </div>
 </template>
 
@@ -57,7 +24,7 @@
 import { upload, extractInfos } from '../util/file-upload.service'
 import { OCT } from '../util/constants/crops'
 import OCTUploadForm from '@/components/oct-upload-form'
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -65,7 +32,7 @@ const STATUS_SUCCESS = 2
 const STATUS_FAILED = 3
 
 export default {
-  name: 'oct-upload-box',
+  name: 'oct-table-extraction',
   components: {
     'oct-upload-form': OCTUploadForm
   },
@@ -74,7 +41,8 @@ export default {
       uploadError: null,
       currentStatus: null,
       uploadFieldName: 'photos',
-      extractedInfos: []
+      extractedInfos: [],
+      floats: []
     }
   },
   computed: mapState({
@@ -117,26 +85,8 @@ export default {
         })
         .finally(() => {
           // coord for important data parts to extract
-          var coords = [OCT['zeiss_zoom']['table']]
           console.log("upload files ...", this.uploadedFiles)
-          this.extractCoords(this.uploadedFiles[0].url, coords)
         })
-    },
-    filesChange (fieldName, fileList) {
-      // handle file changes
-      const formData = new FormData()
-
-      if (!fileList.length) return
-
-      // append the files to FormData
-      Array
-        .from(Array(fileList.length).keys())
-        .map(x => {
-          formData.append(fieldName, fileList[x], fileList[x].name)
-        })
-
-      // save it
-      this.save(formData)
     },
     extractCoords (file, coords) {
       // crop first image and preview it
@@ -167,19 +117,35 @@ export default {
       console.log(this.extractedInfos[0].url.split(',')[1])
       var api_key = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
       this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + api_key, postBody)
-        .then(response => {
-          console.log(response)
-          // use it to set the form
-
+        .then(result => {
+          console.log(result.data.responses[0].fullTextAnnotation.text)
+          this.floats = result.data.responses[0].fullTextAnnotation.text
+            .match(/[+-]?\d+(\.\d+)?/g)
+            .map(function(v) { return parseFloat(v); })
         })
         .catch(err => {
           console.log('OCR failed')
+        })
+        .finally(() => {
+          console.log(this.floats)
+          // check if is Int
+          function isInt(n) {
+            return n % 1 === 0;
+          }
+          this.$refs.form[0].model.avg_rnfl = this.floats[0]
+          this.$refs.form[0].model.rnfl_symmetry = this.floats[2]
+          this.$refs.form[0].model.rim_area = this.floats[3]
+          this.$refs.form[0].model.disc_area = this.floats[6]
+          this.$refs.form[0].model.avg_cd_ratio = this.floats[9]
+          this.$refs.form[0].model.vertical_cd_ratio = this.floats[11]
+          this.$refs.form[0].model.cup_vol = this.floats[13]
         })
       // this.$refs.form[0].model.avg_rnfl = 10
     }
   },
   mounted () {
-    this.reset()
+    var coords = [OCT['zeiss_zoom']['table']]
+    this.extractCoords(this.uploadedFiles[0].url, coords)
   }
 }
 </script>
