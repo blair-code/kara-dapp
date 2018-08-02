@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: 'kara-mobile-start',
+  name: 'kara-mobile-start'
 //   methods: {
 //     processFile (event) {
 //       // this.$store.data.image = event.target.files[0]

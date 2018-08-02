@@ -9,7 +9,6 @@
 
 <script>
 import VueFormGenerator from 'vue-form-generator'
-import { validators } from 'vue-form-generator'
 import 'vue-form-generator/dist/vfg-core.css'
 
 export default {
@@ -40,7 +39,7 @@ export default {
                 inputType: 'text',
                 label: 'Average RNFL Thickness (in μm)',
                 model: 'avg_rnfl',
-                placeholder: ''              
+                placeholder: ''
               },
               {
                 type: 'input',
@@ -48,7 +47,7 @@ export default {
                 label: 'RNFL Symmetry (in %)',
                 model: 'rnfl_symmetry',
                 placeholder: '',
-                validator: validators.number              
+                validator: VueFormGenerator.validators.number
               },
               {
                 type: 'input',
@@ -87,18 +86,16 @@ export default {
               }
             ]
           }]
-        },
-
-        formOptions: {
-          validateAfterLoad: true,
-          validateAfterChanged: true,
-          fieldIdPrefix: 'user-'
-        }
+      },
+      formOptions: {
+        validateAfterLoad: true,
+        validateAfterChanged: true,
+        fieldIdPrefix: 'user-'
       }
     }
   }
+}
 </script>
 
 <style>
-
 </style>

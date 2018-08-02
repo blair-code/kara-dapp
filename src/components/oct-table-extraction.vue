@@ -85,7 +85,7 @@ export default {
         })
         .finally(() => {
           // coord for important data parts to extract
-          console.log("upload files ...", this.uploadedFiles)
+          console.log('upload files ...', this.uploadedFiles)
         })
     },
     extractCoords (file, coords) {
@@ -109,29 +109,29 @@ export default {
               }
             ],
             'image': {
-              'content': this.extractedInfos[0].url.split(',')[1] 
+              'content': this.extractedInfos[0].url.split(',')[1]
             }
           }
         ]
       }
       console.log(this.extractedInfos[0].url.split(',')[1])
-      var api_key = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
-      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + api_key, postBody)
+      var apiKey = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
+      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + apiKey, postBody)
         .then(result => {
           console.log(result.data.responses[0].fullTextAnnotation.text)
           this.floats = result.data.responses[0].fullTextAnnotation.text
             .match(/[+-]?\d+(\.\d+)?/g)
-            .map(function(v) { return parseFloat(v); })
+            .map(function (v) { return parseFloat(v) })
         })
         .catch(err => {
-          console.log('OCR failed')
+          console.log('OCR failed due to' + err)
         })
         .finally(() => {
           console.log(this.floats)
           // check if is Int
-          function isInt(n) {
-            return n % 1 === 0;
-          }
+          // function isInt (n) {
+          //   return n % 1 === 0
+          // }
           this.$refs.form[0].model.avg_rnfl = this.floats[0]
           this.$refs.form[0].model.rnfl_symmetry = this.floats[2]
           this.$refs.form[0].model.rim_area = this.floats[3]

@@ -1,137 +1,14 @@
 <!-- HTML Template -->
 <template>
-    <router-link to="submit-oasis"><a class="btn btn-primary btn-lg btn-block" role="button">Submitted</a></router-link>
-  </div>
+<div>
+    <router-link to="mobile-dapp"><a class="btn btn-primary btn-lg btn-block" role="button">Submitted</a></router-link>
+</div>
 </template>
 
 <!-- Javascript -->
 <script>
-import { upload, extractInfos } from '../util/file-upload.service'
-import { OCT } from '../util/constants/crops'
-import OCTUploadForm from '@/components/oct-upload-form'
-import { mapState } from 'vuex'
-
-const STATUS_INITIAL = 0
-const STATUS_SAVING = 1
-const STATUS_SUCCESS = 2
-const STATUS_FAILED = 3
-
 export default {
-  name: 'oct-table-extraction',
-  components: {
-    'oct-upload-form': OCTUploadForm
-  },
-  data () {
-    return {
-      uploadError: null,
-      currentStatus: null,
-      uploadFieldName: 'photos',
-      extractedInfos: [],
-      floats: []
-    }
-  },
-  computed: mapState({
-    isInitial () {
-      return this.currentStatus === STATUS_INITIAL
-    },
-    isSaving () {
-      return this.currentStatus === STATUS_SAVING
-    },
-    isSuccess () {
-      return this.currentStatus === STATUS_SUCCESS
-    },
-    isFailed () {
-      return this.currentStatus === STATUS_FAILED
-    },
-    uploadedFiles (state) {
-      return state.data.uploadedFiles
-    }
-  }),
-  methods: {
-    reset () {
-      // reset form to initial state
-      this.currentStatus = STATUS_INITIAL
-      this.uploadError = null
-      this.$store.dispatch('resetFiles')
-    },
-    save (formData) {
-      // upload data to the server
-      this.currentStatus = STATUS_SAVING
-
-      upload(formData)
-        .then(x => {
-          var uploadedFiles = [].concat(x)
-          this.$store.dispatch('uploadFiles', uploadedFiles)
-          this.currentStatus = STATUS_SUCCESS
-        })
-        .catch(err => {
-          this.uploadError = err.response
-          this.currentStatus = STATUS_FAILED
-        })
-        .finally(() => {
-          // coord for important data parts to extract
-          console.log("upload files ...", this.uploadedFiles)
-        })
-    },
-    extractCoords (file, coords) {
-      // crop first image and preview it
-      extractInfos(file, coords)
-        .then(dataURL => {
-          this.extractedInfos = [].concat(dataURL)
-        })
-        .catch(err => {
-          this.uploadError = err.response
-          this.currentStatus = STATUS_FAILED
-        })
-    },
-    runOCR () {
-      const postBody = {
-        'requests': [
-          {
-            'features': [
-              {
-                'type': 'TEXT_DETECTION'
-              }
-            ],
-            'image': {
-              'content': this.extractedInfos[0].url.split(',')[1] 
-            }
-          }
-        ]
-      }
-      console.log(this.extractedInfos[0].url.split(',')[1])
-      var api_key = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
-      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + api_key, postBody)
-        .then(result => {
-          console.log(result.data.responses[0].fullTextAnnotation.text)
-          this.floats = result.data.responses[0].fullTextAnnotation.text
-            .match(/[+-]?\d+(\.\d+)?/g)
-            .map(function(v) { return parseFloat(v); })
-        })
-        .catch(err => {
-          console.log('OCR failed')
-        })
-        .finally(() => {
-          console.log(this.floats)
-          // check if is Int
-          function isInt(n) {
-            return n % 1 === 0;
-          }
-          this.$refs.form[0].model.avg_rnfl = this.floats[0]
-          this.$refs.form[0].model.rnfl_symmetry = this.floats[2]
-          this.$refs.form[0].model.rim_area = this.floats[3]
-          this.$refs.form[0].model.disc_area = this.floats[6]
-          this.$refs.form[0].model.avg_cd_ratio = this.floats[9]
-          this.$refs.form[0].model.vertical_cd_ratio = this.floats[11]
-          this.$refs.form[0].model.cup_vol = this.floats[13]
-        })
-      // this.$refs.form[0].model.avg_rnfl = 10
-    }
-  },
-  mounted () {
-    var coords = [OCT['zeiss_zoom']['table']]
-    this.extractCoords(this.uploadedFiles[0].url, coords)
-  }
+  name: 'oct-table-extraction'
 }
 </script>
 

@@ -39,7 +39,6 @@
           </div>
         </li>
       </ul> -->
-      
     </div>
     <!--FAILED-->
     <div v-if="isFailed">
@@ -118,7 +117,7 @@ export default {
         .finally(() => {
           // coord for important data parts to extract
           var coords = [OCT['zeiss_zoom']['table']]
-          console.log("upload files ...", this.uploadedFiles)
+          console.log('upload files ...', this.uploadedFiles)
           this.extractCoords(this.uploadedFiles[0].url, coords)
         })
     },
@@ -159,21 +158,20 @@ export default {
               }
             ],
             'image': {
-              'content': this.extractedInfos[0].url.split(',')[1] 
+              'content': this.extractedInfos[0].url.split(',')[1]
             }
           }
         ]
       }
       console.log(this.extractedInfos[0].url.split(',')[1])
-      var api_key = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
-      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + api_key, postBody)
+      var apiKey = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
+      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + apiKey, postBody)
         .then(response => {
           console.log(response)
           // use it to set the form
-
         })
         .catch(err => {
-          console.log('OCR failed')
+          console.log('OCR failed ' + err)
         })
       // this.$refs.form[0].model.avg_rnfl = 10
     }
