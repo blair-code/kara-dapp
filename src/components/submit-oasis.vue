@@ -1,15 +1,18 @@
 <!-- HTML Template -->
 <template>
 <div>
-    <div class="btn btn-lg btn-block">Submitted!</div>
-    <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Submit more!</a></router-link>
+    <router-link to="upload"><a style="margin-top:30%" class="btn btn-primary btn-lg btn-block" role="button">Submit more!</a></router-link>
 </div>
 </template>
 
 <!-- Javascript -->
 <script>
+import toastr from 'toastr'
 export default {
-  name: 'oct-table-extraction'
+  name: 'oct-table-extraction',
+  mounted () {
+    toastr.success('Data added successfully')
+  }
 }
 </script>
 

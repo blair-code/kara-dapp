@@ -28,6 +28,7 @@
       </ul>
 
       <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link>
+      <router-link to="submit-oasis"><a style="margin-top:5%" class="btn btn-primary btn-lg btn-block" role="button">Submit to Oasis</a></router-link>
 
       <!-- <h2>Extracted tables</h2>
       <ul class="list-unstyled">

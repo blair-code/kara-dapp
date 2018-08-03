@@ -26,6 +26,7 @@ import { upload, extractInfos } from '../util/file-upload.service'
 import { OCT } from '../util/constants/crops'
 import OCTUploadForm from '@/components/oct-upload-form'
 import { mapState } from 'vuex'
+import toastr from 'toastr'
 
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -125,7 +126,7 @@ export default {
             .map(function (v) { return parseFloat(v) })
         })
         .catch(err => {
-          console.log('OCR failed due to' + err)
+          toastr.error(err)
         })
         .finally(() => {
           console.log(this.floats)
@@ -140,8 +141,8 @@ export default {
           this.$refs.form[0].model.avg_cd_ratio = this.floats[9] + ' , ' + this.floats[10]
           this.$refs.form[0].model.vertical_cd_ratio = this.floats[11] + ' , ' + this.floats[12]
           this.$refs.form[0].model.cup_vol = this.floats[13] + ' , ' + this.floats[14]
+          toastr.success('OCR run successfully')
         })
-      // this.$refs.form[0].model.avg_rnfl = 10
     }
   },
   mounted () {
