@@ -6,5 +6,6 @@ module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   IPFS_ADDRESS: '""',
   IPFS_PORT: '""',
-  KARA_DATABASE_ADDRESS: '""'
+  KARA_DATABASE_ADDRESS: '""',
+  GOOGLE_API_KEY: '"AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ"',
 })
