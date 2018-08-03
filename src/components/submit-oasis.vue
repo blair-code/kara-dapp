@@ -1,7 +1,8 @@
 <!-- HTML Template -->
 <template>
 <div>
-    <router-link to="mobile-dapp"><a class="btn btn-primary btn-lg btn-block" role="button">Submitted</a></router-link>
+    <div class="btn btn-lg btn-block">Submitted!</div>
+    <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Submit more!</a></router-link>
 </div>
 </template>
 

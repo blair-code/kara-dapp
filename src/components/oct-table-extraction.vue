@@ -15,6 +15,7 @@
       </li>
     </ul>
 
+    <!-- Links to Oasis -->
     <router-link to="submit-oasis"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Submit to Oasis</a></router-link>
   </div>
 </template>
@@ -132,13 +133,13 @@ export default {
           // function isInt (n) {
           //   return n % 1 === 0
           // }
-          this.$refs.form[0].model.avg_rnfl = this.floats[0]
+          this.$refs.form[0].model.avg_rnfl = this.floats[0] + ' , ' + this.floats[1]
           this.$refs.form[0].model.rnfl_symmetry = this.floats[2]
-          this.$refs.form[0].model.rim_area = this.floats[3]
-          this.$refs.form[0].model.disc_area = this.floats[6]
-          this.$refs.form[0].model.avg_cd_ratio = this.floats[9]
-          this.$refs.form[0].model.vertical_cd_ratio = this.floats[11]
-          this.$refs.form[0].model.cup_vol = this.floats[13]
+          this.$refs.form[0].model.rim_area = this.floats[3] + ' , ' + this.floats[4]
+          this.$refs.form[0].model.disc_area = this.floats[6] + ' , ' + this.floats[7]
+          this.$refs.form[0].model.avg_cd_ratio = this.floats[9] + ' , ' + this.floats[10]
+          this.$refs.form[0].model.vertical_cd_ratio = this.floats[11] + ' , ' + this.floats[12]
+          this.$refs.form[0].model.cup_vol = this.floats[13] + ' , ' + this.floats[14]
         })
       // this.$refs.form[0].model.avg_rnfl = 10
     }
