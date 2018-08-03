@@ -12,6 +12,8 @@ export default {
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from mobile-dapp.vue')
     this.$store.dispatch('registerWeb3')
+    console.log('registerIpfs Action dispatched from mobile-dapp.vue')
+    this.$store.dispatch('registerIpfs')
   },
   components: {
     'hello-metamask': HelloMetamask,
