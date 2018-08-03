@@ -37,6 +37,9 @@ export const store = new Vuex.Store({
     },
     reset (state, payload) {
       state.data.uploadedFiles = []
+    },
+    registerIpfsInstance (state, payload) {
+      state.ipfsInstance = () => payload
     }
   },
   actions: {

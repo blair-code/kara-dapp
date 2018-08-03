@@ -4,6 +4,7 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  IPFS_GATEWAY_URL: 'http://localhost:8080/ipfs/',
+  IPFS_ADDRESS: '',
+  IPFS_PORT: '',
   KARA_DATABASE_ADDRESS: '',
 })
