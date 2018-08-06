@@ -26,6 +26,10 @@ export default {
       messagingSenderId: '1094511591298'
     }
     firebase.initializeApp(config)
+
+    // dispatch ipfs
+    console.log('registerIpfs Action dispatched from mobile-dapp.vue')
+    this.$store.dispatch('registerIpfs')
   },
   components: {
     'hello-metamask': HelloMetamask,

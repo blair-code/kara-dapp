@@ -125,8 +125,7 @@ export default {
         ]
       }
       console.log(this.extractedInfos[0].url.split(',')[1])
-      var apiKey = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
-      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + apiKey, postBody)
+      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + process.env.GOOGLE_API_KEY, postBody)
         .then(result => {
           console.log(result.data.responses[0].fullTextAnnotation.text)
           this.floats = result.data.responses[0].fullTextAnnotation.text
@@ -155,7 +154,7 @@ export default {
     },
     cropTable () {
 
-      var originalTable = document.getElementById("hide")
+      var originalTable = document.getElementById('hide')
       originalTable.style.display = 'none'
 
       function each (arr, callback) {
