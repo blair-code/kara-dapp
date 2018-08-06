@@ -6,9 +6,15 @@
       <router-link to="upload"><a class="white" href="javascript:void(0)">Back to Uploads</a></router-link>
     </p>
     <ul class="list-unstyled">
+      <!-- hidden img file -->
+      <img id="hidden" style="display:none;" height="auto" width="100%" :src="uploadedFiles[0].url">
       <li v-for="item in extractedInfos" :key="item.id">
         <div class="img-responsive img-thumbnail with-margin">
-          <img :src="item.url" class="with-margin preview">
+          <img :src="item.url" id="hide" class="with-margin">
+          <div class="col col-3">
+            <div class="preview"></div>
+          </div>
+          <a class="btn btn-info btn-block" role="button" @click="cropTable()">Crop table</a>
           <oct-upload-form ref="form"/>
           <a class="btn btn-info btn-block" role="button" @click="runOCR()">Run OCR</a>
         </div>
@@ -27,6 +33,7 @@ import { OCT } from '../util/constants/crops'
 import OCTUploadForm from '@/components/oct-upload-form'
 import { mapState } from 'vuex'
 import toastr from 'toastr'
+import Cropper from 'cropperjs'
 
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -102,6 +109,7 @@ export default {
         })
     },
     runOCR () {
+      // TODO: Add crop OCR capabilities
       const postBody = {
         'requests': [
           {
@@ -129,6 +137,7 @@ export default {
           toastr.error(err)
         })
         .finally(() => {
+          // machine learning the lazy way
           console.log(this.floats)
           // check if is Int
           // function isInt (n) {
@@ -143,6 +152,60 @@ export default {
           this.$refs.form[0].model.cup_vol = this.floats[13] + ' , ' + this.floats[14]
           toastr.success('OCR run successfully')
         })
+    },
+    cropTable () {
+
+      var originalTable = document.getElementById("hide")
+      originalTable.style.display = 'none'
+
+      function each (arr, callback) {
+        var length = arr.length
+        var i
+        for (i = 0; i < length; i++) {
+          callback.call(arr, arr[i], i, arr)
+        }
+        return arr
+      }
+      var image = document.querySelector('#hidden')
+      var previews = document.querySelectorAll('.preview')
+      var cropper = new Cropper(image, {
+        ready: function () {
+          var clone = this.cloneNode()
+
+          clone.className = ''
+          clone.style.cssText = (
+            'display: block;' +
+            'width: 100%;' +
+            'min-width: 0;' +
+            'min-height: 0;' +
+            'max-width: none;' +
+            'max-height: none;'
+          )
+
+          each(previews, function (elem) {
+            elem.appendChild(clone.cloneNode())
+          })
+        },
+        crop: function (event) {
+          var data = event.detail
+          var cropper = this.cropper
+          var imageData = cropper.getImageData()
+          var previewAspectRatio = data.width / data.height
+
+          each(previews, function (elem) {
+            var previewImage = elem.getElementsByTagName('img').item(0)
+            var previewWidth = elem.offsetWidth
+            var previewHeight = previewWidth / previewAspectRatio
+            var imageScaledRatio = data.width / previewWidth
+
+            elem.style.height = previewHeight + 'px'
+            previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px'
+            previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px'
+            previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px'
+            previewImage.style.marginTop = -data.y / imageScaledRatio + 'px'
+          })
+        }
+      })
     }
   },
   mounted () {
@@ -197,5 +260,13 @@ export default {
     margin-top: 1%;
     margin-left: 1%;
     margin-right: 1%;
+  }
+
+  .preview {
+      overflow: hidden;
+  }
+
+  img {
+    max-width: 100%;
   }
 </style>

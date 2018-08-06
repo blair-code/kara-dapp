@@ -8,9 +8,34 @@
 <!-- Javascript -->
 <script>
 import toastr from 'toastr'
+import firebase from 'firebase'
+import {mapState} from 'vuex'
+
 export default {
   name: 'oct-table-extraction',
+  computed: mapState({
+    uploadedFiles (state) {
+      return state.data.uploadedFiles
+    },
+    coinbase: state => state.web3.coinbase
+  }),
+  methods: {
+    saveMessage () {
+      // Add a new message entry to the Firebase Database.
+      return firebase.database().ref('/data/').push({
+        account: this.coinbase,
+        price: 99,
+        rating: 0,
+        imageurl: this.uploadedFiles[1].url // hard code that is the image url
+      }).catch((error) => {
+        console.error('Error writing new message to Firebase Database', error)
+      })
+    }
+  },
   mounted () {
+    // See https://firebase.google.com/docs/web/setup#project_setup for how to
+    // Initialize Firebase
+    this.saveMessage()
     toastr.success('Data added successfully')
   }
 }
