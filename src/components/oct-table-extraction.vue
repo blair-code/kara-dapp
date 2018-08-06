@@ -153,7 +153,6 @@ export default {
         })
     },
     cropTable () {
-
       var originalTable = document.getElementById('hide')
       originalTable.style.display = 'none'
 

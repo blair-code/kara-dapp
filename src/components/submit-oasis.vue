@@ -1,7 +1,13 @@
 <!-- HTML Template -->
 <template>
-<div>
-    <router-link to="upload"><a style="margin-top:30%" class="btn btn-primary btn-lg btn-block" role="button">Submit more!</a></router-link>
+<div style="margin-left:3%;margin-right:3%">
+  <hello-metamask/>
+  <h1 style="margin-top:5%">Tag and Submit</h1>
+    <a style="" class="btn btn-info btn-lg btn-block" role="button" @click="submit('healthy')">healthy</a>
+    <a style="margin-top:1%" class="btn btn-info btn-lg btn-block" role="button" @click="submit('glaucoma')">glaucoma</a>
+    <a style="margin-top:1%" class="btn btn-info btn-lg btn-block" role="button" @click="submit('diabetic retinopathy')">diabetic retinopathy</a>
+
+    <router-link to="upload"><a style="margin-top:30%" class="btn btn-primary btn-lg btn-block" role="button">Upload more!</a></router-link>
 </div>
 </template>
 
@@ -10,6 +16,8 @@
 import toastr from 'toastr'
 import firebase from 'firebase'
 import {mapState} from 'vuex'
+import HelloMetamask from '@/components/hello-metamask'
+ 
 
 export default {
   name: 'oct-table-extraction',
@@ -20,23 +28,28 @@ export default {
     coinbase: state => state.web3.coinbase
   }),
   methods: {
-    saveMessage () {
+    submit (label) {
+      this.saveMessage(label)
+      toastr.success('Data added successfully')
+    },
+    saveMessage (label) {
       // Add a new message entry to the Firebase Database.
       return firebase.database().ref('/data/').push({
         account: this.coinbase,
         price: 99,
         rating: 0,
-        imageurl: this.uploadedFiles[1].url // hard code that is the image url
+        category: label,
+        imageurl: this.uploadedFiles[0].url // hard code that is the image url
       }).catch((error) => {
         console.error('Error writing new message to Firebase Database', error)
       })
     }
   },
   mounted () {
-    // See https://firebase.google.com/docs/web/setup#project_setup for how to
-    // Initialize Firebase
-    this.saveMessage()
-    toastr.success('Data added successfully')
+    //pass
+  },
+  components: {
+    'hello-metamask': HelloMetamask
   }
 }
 </script>
