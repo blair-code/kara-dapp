@@ -17,7 +17,6 @@ import toastr from 'toastr'
 import firebase from 'firebase'
 import {mapState} from 'vuex'
 import HelloMetamask from '@/components/hello-metamask'
- 
 
 export default {
   name: 'oct-table-extraction',
@@ -46,7 +45,6 @@ export default {
     }
   },
   mounted () {
-    //pass
   },
   components: {
     'hello-metamask': HelloMetamask

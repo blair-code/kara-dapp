@@ -166,6 +166,7 @@ export default {
       }
       var image = document.querySelector('#hidden')
       var previews = document.querySelectorAll('.preview')
+      // eslint-disable-next-line
       var cropper = new Cropper(image, {
         ready: function () {
           var clone = this.cloneNode()
