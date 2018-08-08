@@ -18,12 +18,12 @@ export default {
 
     if (typeof firebase === 'undefined') throw new Error('hosting/init-error: Firebase SDK not detected. You must include it before /__/firebase/init.js')
     var config = {
-      apiKey: 'AIzaSyDMYo_bAJB7wUVMMG5Mehaopy7P0EQWLNc',
-      authDomain: 'kara-1a295.firebaseapp.com',
-      databaseURL: 'https://kara-1a295.firebaseio.com',
-      projectId: 'kara-1a295',
-      storageBucket: 'kara-1a295.appspot.com',
-      messagingSenderId: '1094511591298'
+      apiKey: process.env.FIREBASE_API_KEY,
+      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
     }
     firebase.initializeApp(config)
   },
