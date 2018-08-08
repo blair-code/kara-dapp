@@ -10,7 +10,6 @@ let state = {
   data: {
     uploadedFiles: []
   },
-  contractInstance: null,
-  ipfsInstance: null
+  contractInstance: null
 }
 export default state

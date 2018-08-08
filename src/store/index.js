@@ -4,7 +4,6 @@ import state from './state'
 import getWeb3 from '../util/getWeb3'
 import pollWeb3 from '../util/pollWeb3'
 import getContract from '../util/getContract'
-import IpfsApi from 'ipfs-api'
 
 Vue.use(Vuex)
 export const store = new Vuex.Store({
@@ -38,9 +37,6 @@ export const store = new Vuex.Store({
     },
     reset (state, payload) {
       state.data.uploadedFiles = []
-    },
-    registerIpfsInstance (state, payload) {
-      state.ipfsInstance = () => payload
     }
   },
   actions: {
@@ -67,10 +63,6 @@ export const store = new Vuex.Store({
     },
     resetFiles ({commit}) {
       commit('reset')
-    },
-    registerIpfs ({commit}) {
-      let ipfsInst = IpfsApi({host: process.env.IPFS_ADDRESS, port: process.env.IPFS_PORT, protocol: 'http'})
-      commit('registerIpfsInstance', ipfsInst)
     }
   }
 })
