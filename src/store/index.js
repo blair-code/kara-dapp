@@ -35,6 +35,10 @@ export const store = new Vuex.Store({
       console.log('uploadFiles Mutation being executed', payload)
       state.data.uploadedFiles = payload
     },
+    saveOCR (state, payload) {
+      console.log('saveOCR Mutation being executed', payload)
+      state.data.model = payload
+    },
     reset (state, payload) {
       state.data.uploadedFiles = []
     }
@@ -63,6 +67,9 @@ export const store = new Vuex.Store({
     },
     resetFiles ({commit}) {
       commit('reset')
+    },
+    saveOCRModel ({commit}, payload) {
+      commit('saveOCR', payload)
     }
   }
 })

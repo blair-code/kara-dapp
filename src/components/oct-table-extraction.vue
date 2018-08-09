@@ -149,6 +149,7 @@ export default {
           this.$refs.form[0].model.avg_cd_ratio = this.floats[9] + ' , ' + this.floats[10]
           this.$refs.form[0].model.vertical_cd_ratio = this.floats[11] + ' , ' + this.floats[12]
           this.$refs.form[0].model.cup_vol = this.floats[13] + ' , ' + this.floats[14]
+          this.$store.dispatch('saveOCRModel', this.$refs.form[0].model)
           toastr.success('OCR run successfully')
         })
     },

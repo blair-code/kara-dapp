@@ -24,7 +24,8 @@ export default {
     uploadedFiles (state) {
       return state.data.uploadedFiles
     },
-    coinbase: state => state.web3.coinbase
+    coinbase: state => state.web3.coinbase,
+    ocrModel: state => state.data.model
   }),
   methods: {
     submit (label) {
@@ -38,7 +39,10 @@ export default {
         price: 99,
         rating: 0,
         category: label,
-        imageurl: this.uploadedFiles[0].url // hard code that is the image url
+        ocr_model: this.ocrModel,
+        imageurls: this.uploadedFiles // hard code that is the image url
+      }).then((id) => {
+        console.log('Write to Firebase Database successful', id)
       }).catch((error) => {
         console.error('Error writing new message to Firebase Database', error)
       })

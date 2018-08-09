@@ -8,7 +8,8 @@ let state = {
     error: null
   },
   data: {
-    uploadedFiles: []
+    uploadedFiles: [],
+    model: null
   },
   contractInstance: null
 }
