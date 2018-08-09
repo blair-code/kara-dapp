@@ -16,6 +16,8 @@ export default {
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from mobile-dapp.vue')
     this.$store.dispatch('registerWeb3')
+    console.log('dispatching getContractInstance')
+    this.$store.dispatch('getContractInstance')
   },
   components: {
     'hello-metamask': HelloMetamask,

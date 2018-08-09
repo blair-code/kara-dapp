@@ -41,6 +41,7 @@ export const store = new Vuex.Store({
     },
     reset (state, payload) {
       state.data.uploadedFiles = []
+      state.data.model = null
     }
   },
   actions: {
@@ -59,6 +60,7 @@ export const store = new Vuex.Store({
     },
     getContractInstance ({commit}) {
       getContract.then(result => {
+        console.log('getContractInstance action being executed')
         commit('registerContractInstance', result)
       }).catch(e => console.log(e))
     },

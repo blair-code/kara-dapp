@@ -17,7 +17,7 @@ import toastr from 'toastr'
 import firebase from 'firebase'
 import {mapState} from 'vuex'
 import HelloMetamask from '@/components/hello-metamask'
-
+import addProposal from '../util/web3_proposal.service'
 export default {
   name: 'oct-table-extraction',
   computed: mapState({
@@ -30,7 +30,6 @@ export default {
   methods: {
     submit (label) {
       this.saveMessage(label)
-      toastr.success('Data added successfully')
     },
     saveMessage (label) {
       // Add a new message entry to the Firebase Database.
@@ -41,8 +40,18 @@ export default {
         category: label,
         ocr_model: this.ocrModel,
         imageurls: this.uploadedFiles // hard code that is the image url
-      }).then((id) => {
-        console.log('Write to Firebase Database successful', id)
+      }).then((result) => {
+        console.log('Write to Firebase Database successful', result)
+        let cb = function (error, result) {
+          if (!error) {
+            console.log(JSON.stringify(result))
+            toastr.success('Data submitted successfully')
+          } else {
+            console.error(error)
+            toastr.error('Error during submission')
+          }
+        }
+        addProposal(result.key, cb)
       }).catch((error) => {
         console.error('Error writing new message to Firebase Database', error)
       })
