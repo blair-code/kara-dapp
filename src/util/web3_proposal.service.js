@@ -7,12 +7,11 @@ function addProposal (dataId, cb) {
   web3 = new Web3(web3.currentProvider)
   if (web3 && store.state.web3.web3Instance) {
     if (store.state.contractInstance) {
-      let databaseAddress = process.env.KARA_DATABASE_ADDRESS
       let description = ''
-      let requestedTokens = 0
+      let price_wei = 0
       let curator = store.state.web3.coinbase
       console.log(store.state.contractInstance())
-      store.state.contractInstance().methods.proposeAddShard(databaseAddress, description, dataId, requestedTokens, curator).send({from: curator}, cb)
+      store.state.contractInstance().methods.addShard(curator, dataId, price_wei).send({from: curator}, cb)
     } else {
       console.error('contractInstance not found. Did you configure a contract address?')
     }
