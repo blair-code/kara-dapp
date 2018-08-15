@@ -7,14 +7,16 @@
     </p>
     <ul class="list-unstyled">
       <!-- hidden img file -->
-      <img id="hidden" style="display:none;" height="auto" width="100%" :src="uploadedFiles[0].url">
+      <div class="image-container" id="to-appear" style="display:none;">
+        <img id="hidden" :src="uploadedFiles[0].url">
+      </div>
       <li v-for="item in extractedInfos" :key="item.id">
         <div class="img-responsive img-thumbnail with-margin">
           <img :src="item.url" id="hide" class="with-margin">
           <div class="col col-3">
             <div class="preview"></div>
           </div>
-          <a class="btn btn-info btn-block" role="button" @click="cropTable()">Crop table</a>
+          <a id="crop-button" class="btn btn-info btn-block" role="button" @click="cropTable()">Crop table</a>
           <oct-upload-form ref="form"/>
           <a class="btn btn-info btn-block" role="button" @click="runOCR()">Run OCR</a>
         </div>
@@ -155,7 +157,11 @@ export default {
     },
     cropTable () {
       var originalTable = document.getElementById('hide')
+      var cropButton = document.getElementById('crop-button')
       originalTable.style.display = 'none'
+      cropButton.style.display = 'none'
+      var toAppear = document.getElementById('to-appear')
+      toAppear.style.display = 'block'
 
       function each (arr, callback) {
         var length = arr.length
@@ -169,6 +175,7 @@ export default {
       var previews = document.querySelectorAll('.preview')
       // eslint-disable-next-line
       var cropper = new Cropper(image, {
+        viewMode: 1,
         ready: function () {
           var clone = this.cloneNode()
 
@@ -268,5 +275,10 @@ export default {
 
   img {
     max-width: 100%;
+  }
+
+  .image-container {
+    height: 400px;
+    width: 100%;
   }
 </style>
