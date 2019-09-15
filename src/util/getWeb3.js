@@ -42,11 +42,12 @@ let getWeb3 = new Promise(function (resolve, reject) {
   .then(result => {
     return new Promise(function (resolve, reject) {
       // Retrieve coinbase
-      result.web3().eth.getCoinbase((err, coinbase) => {
+      result.web3().eth.getAccounts((err, accounts) => {
         if (err) {
           reject(new Error('Unable to retrieve coinbase'))
         } else {
-          result = Object.assign({}, result, { coinbase })
+          let account = accounts[0]
+          result = Object.assign({}, result, { account })
           resolve(result)
         }
       })

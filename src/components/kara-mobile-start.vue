@@ -4,9 +4,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 probootstrap-intro-text">
-                <h1 class="text-center">Kara</h1>
+                <!-- <h1 class="text-center">Kara</h1> -->
+                <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png"/>
                 <div class="probootstrap-subtitle text-center">
-                    <h2>Privacy-Preserving Tokenized Data Market for Medical Data</h2>
+                    <h2>Own your medical data. Improve research.</h2>
                 </div>
                 <p class="text-center watch-intro"><a href="" class="popup-vimeo">Watch the tutorial <i class="icon-play2"></i></a></p>
                 </div>

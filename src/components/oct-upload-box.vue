@@ -3,27 +3,31 @@
   <div class="container">
     <!--UPLOAD-->
     <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-      <h1>Click to upload images</h1>
+      <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png" />
+      <h2 class="white">
+        Data Upload</h2>
       <div class="dropbox">
         <input type="file" multiple="" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
-          <p v-if="isInitial">
-            Upload data
+          <p v-if="isInitial" class="white">
+            Drag&drop or click here to upload your data ☝️
           </p>
-          <p v-if="isSaving">
+          <p v-if="isSaving" class="white">
             Uploading {{ fileCount }} files...
           </p>
       </div>
     </form>
     <!--SUCCESS-->
-    <div v-if="isSuccess">
-      <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
-      <p>
-        <a class="white" href="javascript:void(0)" @click="reset()">Upload again</a>
-      </p>
+    <div v-if="isSuccess" >
+      <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png" />
+      <h2 class="white">
+        Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
+      <h3>
+        <a class="white" href="javascript:void(0)" @click="reset()">🔙 Return to Upload</a>
+      </h3>
       <ul class="list-unstyled">
         <li v-for="item in uploadedFiles" :key="item.id">
-          <img :id="item.originalName" :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName" @click="rotate(item.originalName)">
-          <a class="white">{{ item.originalName }}</a>
+          <img :id="item.originalName" :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName" @click="rotate(item)">
+          <!-- <a class="white">{{ item.originalName }}</a> -->
         </li>
       </ul>
 
@@ -44,8 +48,8 @@
 
 <!-- Javascript -->
 <script>
-import { upload, extractInfos } from '../util/file-upload.service'
-import { OCT } from '../util/constants/crops'
+import { upload } from '../util/file-upload.service'
+// import { OCT } from '../util/constants/crops'
 import OCTUploadForm from '@/components/oct-upload-form'
 import {mapState} from 'vuex'
 
@@ -53,7 +57,6 @@ const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
 const STATUS_FAILED = 3
-var deg = 0
 
 export default {
   name: 'oct-upload-box',
@@ -106,12 +109,12 @@ export default {
           this.uploadError = err.response
           this.currentStatus = STATUS_FAILED
         })
-        .finally(() => {
-          // coord for important data parts to extract
-          var coords = [OCT['zeiss_zoom']['table']]
-          console.log('upload files ...', this.uploadedFiles)
-          this.extractCoords(this.uploadedFiles[0].url, coords)
-        })
+        // .finally(() => {
+        //   // coord for important data parts to extract
+        //   var coords = [OCT['zeiss_zoom']['table']]
+        //   console.log('upload files ...', this.uploadedFiles)
+        //   this.extractCoords(this.uploadedFiles[0].url, coords)
+        // })
     },
     filesChange (fieldName, fileList) {
       // handle file changes
@@ -129,49 +132,48 @@ export default {
       // save it
       this.save(formData)
     },
-    rotate (id) {
-      var img = document.getElementById(id)
-      img.setAttribute('style', 'transform:rotate(' + deg + 'deg)')
-      deg = deg + 90
-    },
-    extractCoords (file, coords) {
-      // crop first image and preview it
-      extractInfos(file, coords)
-        .then(dataURL => {
-          this.extractedInfos = [].concat(dataURL)
-        })
-        .catch(err => {
-          this.uploadError = err.response
-          this.currentStatus = STATUS_FAILED
-        })
-    },
-    runOCR () {
-      const postBody = {
-        'requests': [
-          {
-            'features': [
-              {
-                'type': 'TEXT_DETECTION'
-              }
-            ],
-            'image': {
-              'content': this.extractedInfos[0].url.split(',')[1]
-            }
-          }
-        ]
-      }
-      console.log(this.extractedInfos[0].url.split(',')[1])
-      var apiKey = 'AIzaSyAAPo-I1OO9QmZYIAv6VrGN70WLvkrAcVQ' // very bad! let's trust everyone right now
-      this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + apiKey, postBody)
-        .then(response => {
-          console.log(response)
-          // use it to set the form
-        })
-        .catch(err => {
-          console.log('OCR failed ' + err)
-        })
-      // this.$refs.form[0].model.avg_rnfl = 10
+    rotate (item) {
+      var img = document.getElementById(item.originalName)
+      img.setAttribute('style', 'transform:rotate(' + item.deg + 'deg)')
+      item.deg = item.deg + 90
     }
+    // extractCoords (file, coords) {
+    //   // crop first image and preview it
+    //   extractInfos(file, coords)
+    //     .then(dataURL => {
+    //       this.extractedInfos = [].concat(dataURL)
+    //     })
+    //     .catch(err => {
+    //       this.uploadError = err.response
+    //       this.currentStatus = STATUS_FAILED
+    //     })
+    // },
+    // runOCR () {
+    //   const postBody = {
+    //     'requests': [
+    //       {
+    //         'features': [
+    //           {
+    //             'type': 'TEXT_DETECTION'
+    //           }
+    //         ],
+    //         'image': {
+    //           'content': this.extractedInfos[0].url.split(',')[1]
+    //         }
+    //       }
+    //     ]
+    //   }
+    //   console.log(this.extractedInfos[0].url.split(',')[1])
+    //   this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + apiKey, postBody)
+    //     .then(response => {
+    //       console.log(response)
+    //       // use it to set the form
+    //     })
+    //     .catch(err => {
+    //       console.log('OCR failed ' + err)
+    //     })
+    //   // this.$refs.form[0].model.avg_rnfl = 10
+    // }
   },
   mounted () {
     this.reset()
