@@ -19,7 +19,7 @@
                 <li><a href="#"><i class="icon-facebook"></i></a></li>
                 <li><a href="#"><i class="icon-instagram2"></i></a></li>
               </ul>
-              <p><small>&copy; Copyright 2018 Kara. All Rights Reserved.</small></p>
+              <p><small>&copy; Copyright 2019 Kara. All Rights Reserved.</small></p>
             </div>
           </nav>
       </div>

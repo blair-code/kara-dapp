@@ -3,11 +3,11 @@
   <div class="container">
     <!--UPLOAD-->
     <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-      <h1>Upload images</h1>
+      <h1>Click to upload images</h1>
       <div class="dropbox">
         <input type="file" multiple="" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
           <p v-if="isInitial">
-            Drag your file(s) here to begin<br> or click to browse
+            Upload data
           </p>
           <p v-if="isSaving">
             Uploading {{ fileCount }} files...
@@ -22,24 +22,14 @@
       </p>
       <ul class="list-unstyled">
         <li v-for="item in uploadedFiles" :key="item.id">
-          <img :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName">
+          <img :id="item.originalName" :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName" @click="rotate(item.originalName)">
           <a class="white">{{ item.originalName }}</a>
         </li>
       </ul>
 
-      <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link>
+      <!-- <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link> -->
       <router-link to="submit-oasis"><a style="margin-top:5%" class="btn btn-primary btn-lg btn-block" role="button">Submit to Oasis</a></router-link>
 
-      <!-- <h2>Extracted tables</h2>
-      <ul class="list-unstyled">
-        <li v-for="item in extractedInfos" :key="item.id">
-          <div class="img-responsive img-thumbnail with-margin">
-            <img :src="item.url" class="with-margin preview">
-            <oct-upload-form ref="form"/>
-            <a class="btn btn-info btn-block" role="button" @click="runOCR()">Run OCR</a>
-          </div>
-        </li>
-      </ul> -->
     </div>
     <!--FAILED-->
     <div v-if="isFailed">
@@ -63,6 +53,7 @@ const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
 const STATUS_FAILED = 3
+var deg = 0
 
 export default {
   name: 'oct-upload-box',
@@ -137,6 +128,11 @@ export default {
 
       // save it
       this.save(formData)
+    },
+    rotate (id) {
+      var img = document.getElementById(id)
+      img.setAttribute('style', 'transform:rotate(' + deg + 'deg)')
+      deg = deg + 90
     },
     extractCoords (file, coords) {
       // crop first image and preview it

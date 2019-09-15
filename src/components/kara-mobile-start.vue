@@ -14,7 +14,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <p class="text-center">
                 <!-- <label for="file-upload">  -->
-                <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Submit Medical Data</a></router-link>
+                <router-link to="upload"><a class="btn btn-primary btn-lg btn-block" role="button">Share Medical Data</a></router-link>
                 <!-- </label> -->
                 <!-- <input style="display:None" id="file-upload" type="file" accept="image/*" @change="processFile( $event )"/> -->
                 </p>
