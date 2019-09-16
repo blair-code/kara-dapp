@@ -29,12 +29,6 @@
 <script>
 export default {
   name: 'kara-mobile-start'
-//   methods: {
-//     processFile (event) {
-//       // this.$store.data.image = event.target.files[0]
-//       this.$router.push('/upload') // change to upload screen
-//     }
-//   }
 }
 </script>
 <style scoped>

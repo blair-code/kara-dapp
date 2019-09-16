@@ -10,7 +10,8 @@ function upload (formData) {
       originalName: x.name,
       fileName: x.name,
       url: img,
-      deg: 0
+      deg: 0,
+      needVal: false
     })))
   return Promise.all(promises)
 }

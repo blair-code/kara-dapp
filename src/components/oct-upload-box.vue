@@ -9,7 +9,7 @@
       <div class="dropbox">
         <input type="file" multiple="" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
           <p v-if="isInitial" class="white">
-            Drag&drop or click here to upload your data ☝️
+            Click here to upload your data ☝️
           </p>
           <p v-if="isSaving" class="white">
             Uploading {{ fileCount }} files...
@@ -22,25 +22,27 @@
       <h2 class="white">
         Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
       <h3>
-        <a class="white" href="javascript:void(0)" @click="reset()">🔙 Return to Upload</a>
+        <a class="white" href="javascript:void(0)" @click="reset()">🔙 Upload more</a>
       </h3>
       <ul class="list-unstyled">
-        <li v-for="item in uploadedFiles" :key="item.id">
-          <img :id="item.originalName" :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName" @click="rotate(item)">
-          <!-- <a class="white">{{ item.originalName }}</a> -->
+        <li v-for="(item, index) in uploadedFiles" :key="item.id">
+          <img :id="item.originalName" :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName">
+          <br>
+          <a class="white" @click="rotate(item)">🔄</a>
+          <a class="white" @click="remove(index)">❌</a>
         </li>
       </ul>
 
       <!-- <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link> -->
-      <router-link to="submit-oasis"><a style="margin-top:5%" class="btn btn-primary btn-lg btn-block" role="button">Submit to Oasis</a></router-link>
+      <router-link to="submit-oasis"><a style="margin-top:5%; margin-bottom:5%" class="btn btn-primary btn-lg btn-block" role="button">Submit</a></router-link>
 
     </div>
     <!--FAILED-->
     <div v-if="isFailed">
-      <h2>Uploaded failed.</h2>
-      <p>
-        <a class="white" href="javascript:void(0)" @click="reset()">Try again</a>
-      </p>
+      <h2 class="white"> 🛑 Uploaded failed</h2>
+      <h2>
+        <a class="white" href="javascript:void(0)" @click="reset()">🔙 Try again</a>
+      </h2>
       <pre>{{ uploadError }}</pre>
     </div>
   </div>
@@ -50,7 +52,7 @@
 <script>
 import { upload } from '../util/file-upload.service'
 // import { OCT } from '../util/constants/crops'
-import OCTUploadForm from '@/components/oct-upload-form'
+// import OCTUploadForm from '@/components/oct-upload-form'
 import {mapState} from 'vuex'
 
 const STATUS_INITIAL = 0
@@ -60,9 +62,9 @@ const STATUS_FAILED = 3
 
 export default {
   name: 'oct-upload-box',
-  components: {
-    'oct-upload-form': OCTUploadForm
-  },
+  // components: {
+  //   'oct-upload-form': OCTUploadForm
+  // },
   data () {
     return {
       uploadError: null,
@@ -93,7 +95,7 @@ export default {
       // reset form to initial state
       this.currentStatus = STATUS_INITIAL
       this.uploadError = null
-      this.$store.dispatch('resetFiles')
+      // this.$store.dispatch('resetFiles')
     },
     save (formData) {
       // upload data to the server
@@ -101,8 +103,8 @@ export default {
 
       upload(formData)
         .then(x => {
-          var uploadedFiles = [].concat(x)
-          this.$store.dispatch('uploadFiles', uploadedFiles)
+          var upload = [].concat(x)
+          this.$store.dispatch('addFiles', upload)
           this.currentStatus = STATUS_SUCCESS
         })
         .catch(err => {
@@ -136,6 +138,10 @@ export default {
       var img = document.getElementById(item.originalName)
       img.setAttribute('style', 'transform:rotate(' + item.deg + 'deg)')
       item.deg = item.deg + 90
+    },
+    remove (index) {
+      console.log(this.$store.state.data.uploadedFiles[index])
+      this.$store.dispatch('deleteFile', index)
     }
     // extractCoords (file, coords) {
     //   // crop first image and preview it

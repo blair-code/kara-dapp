@@ -1,11 +1,11 @@
 <template>
   <div>
-    <hello-metamask/>
+    <!-- <hello-metamask/> -->
     <kara-mobile-start/>
   </div>
 </template>
 <script>
-import HelloMetamask from '@/components/hello-metamask'
+// import HelloMetamask from '@/components/hello-metamask'
 import KaraMobileStart from '@/components/kara-mobile-start'
 
 import firebase from 'firebase'
@@ -13,8 +13,13 @@ import firebase from 'firebase'
 export default {
   name: 'mobile-dapp',
   beforeCreate () {
-    console.log('registerWeb3 Action dispatched from mobile-dapp.vue')
-    this.$store.dispatch('registerWeb3')
+    // console.log('registerWeb3 Action dispatched from mobile-dapp.vue')
+    // this.$store.dispatch('registerWeb3')
+    var vars = {}
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+      vars[key] = value
+    })
+    this.$store.dispatch('saveId', vars['id'])
 
     if (typeof firebase === 'undefined') throw new Error('hosting/init-error: Firebase SDK not detected. You must include it before /__/firebase/init.js')
     var config = {
@@ -28,7 +33,7 @@ export default {
     firebase.initializeApp(config)
   },
   components: {
-    'hello-metamask': HelloMetamask,
+    // 'hello-metamask': HelloMetamask,
     'kara-mobile-start': KaraMobileStart
   }
 }

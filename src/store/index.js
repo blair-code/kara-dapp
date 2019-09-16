@@ -31,9 +31,21 @@ export const store = new Vuex.Store({
       // console.log('Casino contract instance: ', payload)
       state.contractInstance = () => payload
     },
+    saveShareId (state, payload) {
+      console.log('shareId Mutation being executed', payload)
+      state.data.id = payload
+    },
     uploadFilesInstance (state, payload) {
       console.log('uploadFiles Mutation being executed', payload)
       state.data.uploadedFiles = payload
+    },
+    addFilesInstance (state, payload) {
+      console.log('addFiles Mutation being executed', payload)
+      state.data.uploadedFiles = state.data.uploadedFiles.concat(payload)
+    },
+    deleteFilesInstance (state, payload) {
+      console.log('deleteFiles Mutation being executed', payload)
+      state.data.uploadedFiles.splice(payload, 1)
     },
     saveOCR (state, payload) {
       console.log('saveOCR Mutation being executed', payload)
@@ -64,8 +76,17 @@ export const store = new Vuex.Store({
         commit('registerContractInstance', result)
       }).catch(e => console.log(e))
     },
+    saveId ({commit}, payload) {
+      commit('saveShareId', payload)
+    },
     uploadFiles ({commit}, payload) {
       commit('uploadFilesInstance', payload)
+    },
+    addFiles ({commit}, payload) {
+      commit('addFilesInstance', payload)
+    },
+    deleteFile ({commit}, payload) {
+      commit('deleteFilesInstance', payload)
     },
     resetFiles ({commit}) {
       commit('reset')

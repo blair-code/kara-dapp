@@ -9,7 +9,8 @@ let state = {
   },
   data: {
     uploadedFiles: [],
-    model: null
+    model: null,
+    id: 0
   },
   contractInstance: null
 }

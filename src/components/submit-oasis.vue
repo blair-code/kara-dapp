@@ -1,7 +1,7 @@
 <!-- HTML Template -->
 <template>
 <div style="margin-left:3%;margin-right:3%">
-  <hello-metamask/>
+  <!-- <hello-metamask/> -->
   <h1 style="margin-top:5%">Tag and Submit</h1>
     <a style="" class="btn btn-info btn-lg btn-block" role="button" @click="submit('healthy')">healthy</a>
     <a style="margin-top:1%" class="btn btn-info btn-lg btn-block" role="button" @click="submit('glaucoma')">glaucoma</a>
