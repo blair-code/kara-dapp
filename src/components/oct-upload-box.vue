@@ -5,37 +5,45 @@
     <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
       <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png" />
       <h2 class="white">
-        Data Upload</h2>
+        Data Upload
+      </h2>
       <div class="dropbox">
         <input type="file" multiple="" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
-          <p v-if="isInitial" class="white">
-            Click here to upload your data ☝️
+          <p v-if="isInitial">
+            Click here to upload your data ☝️ <br> (or drag&drop it)
           </p>
           <p v-if="isSaving" class="white">
             Uploading {{ fileCount }} files...
           </p>
       </div>
+      <h2 class="white">
+        Uploaded <b>{{ uploadedFiles.length }}</b> file(s) in Gallery
+      </h2>
+      <h2 class="btn btn-primary btn-lg" @click="toGallery()">
+        <a class="white" href="javascript:void(0)" >View Gallery</a>
+      </h2>
     </form>
     <!--SUCCESS-->
     <div v-if="isSuccess" >
       <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png" />
       <h2 class="white">
-        Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
-      <h3>
-        <a class="white" href="javascript:void(0)" @click="reset()">🔙 Upload more</a>
+        Uploaded <b>{{ uploadedFiles.length }}</b> file(s) in Gallery
+      </h2>
+      <h3 class="btn btn-primary btn-lg" @click="reset()">
+        <a class="white" href="javascript:void(0)">Upload more</a>
       </h3>
       <ul class="list-unstyled">
         <li v-for="(item, index) in uploadedFiles" :key="item.id" class="center" style="width:50%">
           <img :id="item.originalName" :src="item.url" class="center-item img-responsive img-thumbnail with-margin" :alt="item.originalName">
           <p class="center-item" >
-            <span class="white" @click="rotate(item)" style="font-size:20px; margin-right:5%">🔄 Rotate</span>
-            <span class="white" @click="remove(index)" style="font-size:20px; margin-right:5%">❌ Delete</span>
+            <span class="center-item btn btn-primary white" @click="rotate(item)" style="font-size:20px; margin-right:5%; margin-bottom:5%">🔄 Rotate</span>
+            <span class="center-item btn btn-primary white" @click="remove(index)" style="font-size:20px; margin-right:5%; margin-bottom:5%">❌ Delete File</span>
           </p>
         </li>
       </ul>
 
       <!-- <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link> -->
-      <router-link to="submit-oasis"><a style="margin-top:5%; margin-bottom:5%" class="btn btn-primary btn-lg btn-block" role="button">Submit</a></router-link>
+      <router-link to="submit-oasis"><a style="margin-top:5%; margin-bottom:5%" class="btn btn-success btn-lg btn-block" role="button">💾 Save Data</a></router-link>
 
     </div>
     <!--FAILED-->
@@ -98,6 +106,9 @@ export default {
       this.uploadError = null
       // this.$store.dispatch('resetFiles')
     },
+    toGallery () {
+      this.currentStatus = STATUS_SUCCESS
+    },
     save (formData) {
       // upload data to the server
       this.currentStatus = STATUS_SAVING
@@ -112,12 +123,6 @@ export default {
           this.uploadError = err.response
           this.currentStatus = STATUS_FAILED
         })
-        // .finally(() => {
-        //   // coord for important data parts to extract
-        //   var coords = [OCT['zeiss_zoom']['table']]
-        //   console.log('upload files ...', this.uploadedFiles)
-        //   this.extractCoords(this.uploadedFiles[0].url, coords)
-        // })
     },
     filesChange (fieldName, fileList) {
       // handle file changes
@@ -144,43 +149,6 @@ export default {
       console.log(this.$store.state.data.uploadedFiles[index])
       this.$store.dispatch('deleteFile', index)
     }
-    // extractCoords (file, coords) {
-    //   // crop first image and preview it
-    //   extractInfos(file, coords)
-    //     .then(dataURL => {
-    //       this.extractedInfos = [].concat(dataURL)
-    //     })
-    //     .catch(err => {
-    //       this.uploadError = err.response
-    //       this.currentStatus = STATUS_FAILED
-    //     })
-    // },
-    // runOCR () {
-    //   const postBody = {
-    //     'requests': [
-    //       {
-    //         'features': [
-    //           {
-    //             'type': 'TEXT_DETECTION'
-    //           }
-    //         ],
-    //         'image': {
-    //           'content': this.extractedInfos[0].url.split(',')[1]
-    //         }
-    //       }
-    //     ]
-    //   }
-    //   console.log(this.extractedInfos[0].url.split(',')[1])
-    //   this.$http.post('https://vision.googleapis.com/v1/images:annotate?key=' + apiKey, postBody)
-    //     .then(response => {
-    //       console.log(response)
-    //       // use it to set the form
-    //     })
-    //     .catch(err => {
-    //       console.log('OCR failed ' + err)
-    //     })
-    //   // this.$refs.form[0].model.avg_rnfl = 10
-    // }
   },
   mounted () {
     this.reset()
@@ -191,9 +159,9 @@ export default {
 <!-- SASS styling -->
 <style lang="scss">
   .dropbox {
-    outline: 2px dashed grey; /* the dash box */
+    outline: 2px dashed pink; /* the dash box */
     outline-offset: -10px;
-    // background: lightcyan;
+    background: white;
     color: dimgray;
     padding: 10px 10px;
     min-height: 200px; /* minimum height */
