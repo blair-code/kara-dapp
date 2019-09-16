@@ -25,11 +25,12 @@
         <a class="white" href="javascript:void(0)" @click="reset()">🔙 Upload more</a>
       </h3>
       <ul class="list-unstyled">
-        <li v-for="(item, index) in uploadedFiles" :key="item.id">
-          <img :id="item.originalName" :src="item.url" class="img-responsive img-thumbnail with-margin" :alt="item.originalName">
-          <br>
-          <a class="white" @click="rotate(item)">🔄</a>
-          <a class="white" @click="remove(index)">❌</a>
+        <li v-for="(item, index) in uploadedFiles" :key="item.id" class="center" style="width:50%">
+          <img :id="item.originalName" :src="item.url" class="center-item img-responsive img-thumbnail with-margin" :alt="item.originalName">
+          <p class="center-item" >
+            <span class="white" @click="rotate(item)" style="font-size:20px; margin-right:5%">🔄 Rotate</span>
+            <span class="white" @click="remove(index)" style="font-size:20px; margin-right:5%">❌ Delete</span>
+          </p>
         </li>
       </ul>
 

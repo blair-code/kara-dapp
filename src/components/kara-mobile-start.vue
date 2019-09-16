@@ -21,7 +21,7 @@
                 </p>
             </div>
         </div>
-        <a class="probootstrap-scroll-down js-next" href="https://blair-code.github.io/kara-market">Browse Data Market<i class="icon-chevron-right"></i></a>
+        <!-- <a class="proboxwotstrap-scroll-down js-next" href="https://blair-code.github.io/kara-market">Browse Data Market<i class="icon-chevron-right"></i></a> -->
     </section>
 </div>
 </template>
