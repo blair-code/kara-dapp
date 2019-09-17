@@ -30,13 +30,13 @@
         Uploaded <b>{{ uploadedFiles.length }}</b> file(s) in Gallery
       </h2>
       <h3 class="btn btn-primary btn-lg" @click="reset()">
-        <a class="white" href="javascript:void(0)">Upload more</a>
+        <a class="white" href="javascript:void(0)">Upload More</a>
       </h3>
       <ul class="list-unstyled">
         <li v-for="(item, index) in uploadedFiles" :key="item.id" class="center" style="width:50%">
-          <img :id="item.originalName" :src="item.url" class="center-item img-responsive img-thumbnail with-margin" :alt="item.originalName">
+          <img :id="item.originalName" :src="item.url" class="center-item img-responsive img-thumbnail with-margin" :alt="item.originalName" v-bind:style="{ transform: 'rotate(' + item.deg + 'deg)' }">
           <p class="center-item" >
-            <span class="center-item btn btn-primary white" @click="rotate(item)" style="font-size:20px; margin-right:5%; margin-bottom:5%">🔄 Rotate</span>
+            <span class="center-item btn btn-primary white" @click="rotate(item)" style="font-size:20px; margin-right:5%; margin-bottom:2%">🔄 Rotate</span>
             <span class="center-item btn btn-primary white" @click="remove(index)" style="font-size:20px; margin-right:5%; margin-bottom:5%">❌ Delete File</span>
           </p>
         </li>
@@ -141,8 +141,6 @@ export default {
       this.save(formData)
     },
     rotate (item) {
-      var img = document.getElementById(item.originalName)
-      img.setAttribute('style', 'transform:rotate(' + item.deg + 'deg)')
       item.deg = item.deg + 90
     },
     remove (index) {
