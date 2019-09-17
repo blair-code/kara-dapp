@@ -43,7 +43,7 @@
       </ul>
 
       <!-- <router-link to="oct-table-extraction"><a class="btn btn-primary btn-lg btn-block" role="button">Next: Extract Tables</a></router-link> -->
-      <router-link to="submit-oasis"><a style="margin-top:5%; margin-bottom:5%" class="btn btn-success btn-lg btn-block" role="button">💾 Save Data</a></router-link>
+      <router-link to="signin"><a style="margin-top:5%; margin-bottom:5%" class="btn btn-success btn-lg btn-block" role="button">💾 Save Data</a></router-link>
 
     </div>
     <!--FAILED-->

@@ -25,7 +25,7 @@ import {mapState} from 'vuex'
 import HelloMetamask from '@/components/hello-metamask'
 // import addProposal from '../util/web3_proposal.service'
 export default {
-  name: 'oct-table-extraction',
+  name: 'kara-signin',
   computed: mapState({
     uploadedFiles (state) {
       return state.data.uploadedFiles
@@ -124,7 +124,7 @@ export default {
           document.getElementById('loader').style.display = 'none'
         }
       },
-      // signInSuccessUrl: '/',
+      signInSuccessUrl: '/#/success',
       signInOptions: [
         // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,

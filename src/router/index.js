@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MobileDapp from '@/components/mobile-dapp'
 import MobileDappUpload from '@/components/mobile-dapp-upload'
-import MobileDappTableExtraction from '@/components/mobile-dapp-table-extraction'
-import SubmitOasis from '@/components/submit-oasis'
+import KaraSignIn from '@/components/kara-signin'
+import KaraSuccess from '@/components/kara-success'
 
 Vue.use(Router)
 export default new Router({
@@ -17,13 +17,13 @@ export default new Router({
     component: MobileDappUpload
   },
   {
-    path: '/oct-table-extraction',
-    name: 'mobile-dapp-table-extraction',
-    component: MobileDappTableExtraction
+    path: '/signin',
+    name: 'kara-signin',
+    component: KaraSignIn
   },
   {
-    path: '/submit-oasis',
-    name: 'submit-oasis',
-    component: SubmitOasis
+    path: '/success',
+    name: 'kara-success',
+    component: KaraSuccess
   }]
 })
