@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 probootstrap-intro-text">
                 <!-- <h1 class="text-center">Kara</h1> -->
-                <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png"/>
+                <img class="center" src="../assets/kara-logo.png"/>
                 <div class="probootstrap-subtitle text-center">
                     <h2>Own your medical data. Improve research.</h2>
                 </div>

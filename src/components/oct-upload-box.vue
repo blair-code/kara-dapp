@@ -3,11 +3,11 @@
   <div class="container">
     <!--UPLOAD-->
     <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-      <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png" />
+      <img class="center" src="../assets/kara-logo.png" />
       <h2 class="white">
         Data Upload
       </h2>
-      <p class="white">Please take care not to capture identifying information. Request help from your doctor in case of questions.</p>
+      <p class="white">⚠️ Please take care not to capture identifying information. Request help from your doctor in case of questions.</p>
       <div class="dropbox">
         <input type="file" multiple="" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
           <p v-if="isInitial">
@@ -26,7 +26,7 @@
     </form>
     <!--SUCCESS-->
     <div v-if="isSuccess" >
-      <img class="center" src="https://kara.cloud/img/brand/kara-logo-handelson.png" />
+      <img class="center" src="../assets/kara-logo.png" />
       <h2 class="white">
         Uploaded <b>{{ uploadedFiles.length }}</b> file(s) in Gallery
       </h2>
