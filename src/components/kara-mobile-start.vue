@@ -9,7 +9,11 @@
                 <div class="probootstrap-subtitle text-center">
                     <h2>Own your medical data. Improve research.</h2>
                 </div>
-                <p class="text-center watch-intro"><a href="" class="popup-vimeo">Watch the tutorial <i class="icon-play2"></i></a></p>
+                <!--
+                <p class="text-center watch-intro">
+                  <a href="" class="popup-vimeo">Watch the tutorial <i class="icon-play2"></i></a>
+                </p>
+                -->
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-4">
